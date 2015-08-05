@@ -42,13 +42,21 @@ public class Job1Mapper
     String line = value.toString().toLowerCase();
     if (!line.contains("billnumamend")){
 	    String[] record = line.split(",");
+	    
+	    //bill number:
 	    record[0] = record[0].replaceAll("[\\W_]+", "");
-	    record[1] = record[1].replaceAll("\"", "");
+	    
+	    //bill title:
+	    record[1] = record[1].replaceAll("[^a-z\\s]", "");
+	    record[1] = record[1].replaceAll("\\s+", " ").trim();
+	    
+	    //bill year:
 	    record[2] = record[2].replaceAll("\"", "");
+	    
 	    String billID = "("+record[0]+ "-" + record[2]+")";
 	    String[] words = record[1].split(" ");
 	    for (String word : words){
-	    	if (!(STOPWORDS.contains(word))){
+	    	if ((!(STOPWORDS.contains(word))) & (word.length()>1)) {
 	    		context.write(new Text(word+","+billID), new IntWritable(1));
 	    	}
 	    }

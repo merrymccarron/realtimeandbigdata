@@ -44,13 +44,16 @@ public class Job3Mapper
     String line = value.toString().toLowerCase();
     if (!line.contains("billnumamend")){
 	    String[] record = line.split(",");
-	    record[1] = record[1].replaceAll("\"", "");
+	    
+	    //bill title:
+	    record[1] = record[1].replaceAll("[^a-z\\s]", "");
+	    record[1] = record[1].replaceAll("\\s+", " ").trim();
 	    
 	    String[] words = record[1].split(" ");
 	    Set<String> distinctWords = new HashSet<String>(Arrays.asList(words));
 	    
 	    for (String word : distinctWords){
-	    	if (!(STOPWORDS.contains(word))){
+	    	if ((!(STOPWORDS.contains(word))) & (word.length()>1)){
 	    		context.write(new Text(word), new IntWritable(1));
 	    	}
 	    }
