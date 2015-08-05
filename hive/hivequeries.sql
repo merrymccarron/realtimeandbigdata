@@ -65,3 +65,17 @@ select lower(bill_norm), bill_period, sum(per_bill_fund) as total_spent
 from bills_lobbyists_internal bills 
 left join bills_count_comp comp ON bills.lcl_id = comp.lcl_id
 group by bill_norm, bill_period;
+
+--count number of bills for word
+create external table words_bills (word string, bill string, year string)
+row format delimited fields terminated by '\t'
+location '/user/cloudera/billsHive/wordsBills';
+
+CREATE TABLE words_bills_count 
+row format delimited fields terminated by ','
+STORED AS RCFile
+AS
+SELECT word, count(*) num_of_bills
+FROM words_bills
+GROUP BY word
+;
