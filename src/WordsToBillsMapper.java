@@ -1,0 +1,55 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashSet;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class WordsToBillsMapper
+  extends Mapper<LongWritable, Text, Text, Text> {
+  
+	
+  private static final HashSet<String> STOPWORDS = new HashSet<String>() ;
+	  
+  protected void setup(Context context) throws IOException, InterruptedException {
+	  Configuration conf = context.getConfiguration();
+		  
+	  BufferedReader br = new BufferedReader(new FileReader(conf.get("stopwords")));
+	  try {
+	      StringBuilder sb = new StringBuilder();
+	      String line = br.readLine();
+	      while (line != null) {
+	          sb.append(line);
+	          sb.append(System.lineSeparator());
+	          line = br.readLine();
+	      }
+	      String everything = sb.toString();
+	      for(String stword: everything.split(",")) {
+			  STOPWORDS.add(stword);
+		  }
+	  } finally {
+	      br.close();
+	  } 
+ }
+	
+  @Override
+  public void map(LongWritable key, Text value, Context context)
+      throws IOException, InterruptedException {
+    String line = value.toString().toLowerCase();
+    if (!line.contains("billnumamend")){
+	    String[] record = line.split(",");
+	    record[0] = record[0].replaceAll("[\\W_]+", "");
+	    record[1] = record[1].replaceAll("\"", "");
+	    record[2] = record[2].replaceAll("\"", "");
+	    String[] words = record[1].split(" ");
+	    for (String word : words){
+	    	if (!(STOPWORDS.contains(word))){
+	    		context.write(new Text(word), new Text(record[0]+"\t"+record[2]));
+	    	}
+	    }
+    }
+  }
+}

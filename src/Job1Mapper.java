@@ -42,7 +42,7 @@ public class Job1Mapper
     String line = value.toString().toLowerCase();
     if (!line.contains("billnumamend")){
 	    String[] record = line.split(",");
-	    record[0] = record[0].replaceAll("\"", "");
+	    record[0] = record[0].replaceAll("[\\W_]+", "");
 	    record[1] = record[1].replaceAll("\"", "");
 	    record[2] = record[2].replaceAll("\"", "");
 	    String billID = "("+record[0]+ "-" + record[2]+")";
