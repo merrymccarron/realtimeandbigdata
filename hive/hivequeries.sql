@@ -49,13 +49,19 @@ SELECT bills.lcl_id, total_compensation, count, total_compensation/count as per_
 FROM bills_count_lob bills
 LEFT JOIN lob_financials_internal fin on (bills.lcl_id = fin.lcl_id);
 
---this generates the idea behind this whole exercise-- amt spent per bill
+--this generates the idea behind this whole exercise: amt spent per bill
+select bill_norm, sum(per_bill_fund) as total_spent
+from bills_lobbyists_internal bills 
+left join bills_count_comp comp ON bills.lcl_id = comp.lcl_id
+group by bill_norm
+limit 20;
+
+--creates a table of all bills that have been lobbied on with the total spent on them
+CREATE TABLE total_spent_bills
+row format delimited fields terminated by ','
+STORED AS RCFile
+AS
 select *, sum(per_bill_fund) as total_spent
-from bills_lobbyists bills 
-left join bills_count_comp comp ON bills.lcl_id = comp.lcl_id;
-group by bill_norm;
--- v2 of the above
-select bill_norm, sum(per_bill_fund)
-from bills_lobbyists bills 
+from bills_lobbyists_internal bills 
 left join bills_count_comp comp ON bills.lcl_id = comp.lcl_id
 group by bill_norm;
