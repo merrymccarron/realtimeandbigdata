@@ -15,6 +15,6 @@ public class Job2Reducer
 		for (IntWritable value : values) {
 				maxValue=Math.max(maxValue, value.get());
 		}
-	context.write(key, new IntWritable(maxValue));
-  }
+		context.write(key, new IntWritable(maxValue));
+	}
 }

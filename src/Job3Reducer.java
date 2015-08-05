@@ -8,7 +8,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 public class Job3Reducer
   extends Reducer<Text, IntWritable, Text, DoubleWritable> {
   
-  private static double N=5;
+  private static double N=71025;
   
   @Override
   public void reduce(Text key, Iterable<IntWritable> values,
