@@ -50,7 +50,7 @@ FROM bills_count_lob bills
 LEFT JOIN lob_financials_internal fin on (bills.lcl_id = fin.lcl_id);
 
 --this generates the idea behind this whole exercise: amt spent per bill
-select bill_norm, sum(per_bill_fund) as total_spent
+select lower(bill_norm), sum(per_bill_fund) as total_spent
 from bills_lobbyists_internal bills 
 left join bills_count_comp comp ON bills.lcl_id = comp.lcl_id
 group by bill_norm
@@ -61,7 +61,7 @@ CREATE TABLE total_spent_bills
 row format delimited fields terminated by ','
 STORED AS RCFile
 AS
-select *, sum(per_bill_fund) as total_spent
+select lower(bill_norm), bill_period, sum(per_bill_fund) as total_spent
 from bills_lobbyists_internal bills 
 left join bills_count_comp comp ON bills.lcl_id = comp.lcl_id
-group by bill_norm;
+group by bill_norm, bill_period;
