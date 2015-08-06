@@ -106,7 +106,6 @@ AS
 select 
   words.word, 
   round(sum(spent.total_spent),2) as total_spent_word, 
-  round(avg(spent.avg_spent_bill),2) as avg_spent_word
 from words_bills words
 left join total_spent_bills spent on (words.bill = spent.bill and words.year = spent.year)
 group by words.word
@@ -116,7 +115,12 @@ CREATE TABLE master_word_metrics
 row format delimited fields terminated by ','
 STORED as RCFile
 AS
-select tf.word, num_of_bills, tf.tfidf, spend.total_spent_word, spend.avg_spent_word
+select 
+  tf.word, 
+  num_of_bills, 
+  tf.tfidf, 
+  spend.total_spent_word as total_spent, 
+  round(spend.total_spent_word/num_of_bills,2) as avg_spent
 from words_bills_count_tfidf tf
 left join spend_per_word spend on (tf.word = spend.word)
 ;
