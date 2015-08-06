@@ -119,9 +119,8 @@ AS
 select tf.word, num_of_bills, tf.tfidf, spend.total_spent_word, spend.avg_spent_word
 from words_bills_count_tfidf tf
 left join spend_per_word spend on (tf.word = spend.word)
-order by total_spent_word desc
-limit 25;
+;
 
-INSERT OVERWRITE LOCAL DIRECTORY '/home/cloudera/realtimeandbigdata/outputs' 
+INSERT OVERWRITE LOCAL DIRECTORY '/home/cloudera/realtimeandbigdata/outputs/hiveout' 
 row format delimited fields terminated by ','
 SElect * from master_word_metrics;
