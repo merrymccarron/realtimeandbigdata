@@ -127,4 +127,18 @@ left join spend_per_word spend on (tf.word = spend.word)
 
 INSERT OVERWRITE LOCAL DIRECTORY '/home/cloudera/realtimeandbigdata/outputs/hiveout' 
 row format delimited fields terminated by ','
-SElect * from master_word_metrics;
+select * from master_word_metrics;
+
+CREATE TABLE high_tfidf
+row format delimited fields terminated by ','
+STORED as RCFile
+as
+select *
+from master_word_metrics
+where tfidf > 15
+and total_spent IS NOT NULL
+and total_spent > 0;
+
+INSERT OVERWRITE LOCAL DIRECTORY '/home/cloudera/realtimeandbigdata/outputs/hiveout' 
+row format delimited fields terminated by ','
+select * from master_word_metrics;
