@@ -1,1 +1,2 @@
 # realtimeandbigdata
+This project utilized Big Data tools, specifically, MapReduce and Hive, to investigate influence (or corruption) in Albany. We looked at corporate influence via hired lobbyists and analyzed New York State bills to discover the main topics and their associated monetary value in lobbying expenses. This is an exploration of just one path of influence that corporations and special interest groups may have to interact with lawmakers. We made use of the NYOpenGovernment data managed by the New York State Office of the Attorney General (OAG).
