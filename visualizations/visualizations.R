@@ -9,6 +9,7 @@ add.alpha <- function(col, alpha=1){
 }
 
 #read data and convert types
+setwd("~/realtimeandbigdata/")
 words_metrics <- read.csv('outputs/hiveout/words_metrics_master.csv')
 colnames(words_metrics) <- c('word','num_of_bills','tfidf','total_spent','avg_spent')
 words_metrics$avg_spent <- as.numeric(as.character(words_metrics$avg_spent))/1000
