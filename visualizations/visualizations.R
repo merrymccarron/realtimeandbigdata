@@ -23,9 +23,17 @@ hist(words_metrics$tfidf, main="TF-IDF (modified) score distibution",
 #explore relations between tf-idf and avg amount spent
 plot(words_metrics$tfidf,words_metrics$avg_spent, pch=16, xlab="TF-IDF (modified)", ylab="AVG spent per bill (K $)", col=add.alpha("blue",0.5), main="TF-IDF score vs. AVG spent per bill")
 words_metrics <- words_metrics[order(-words_metrics$avg_spent),]
-text(words_metrics$tfidf[1:3],words_metrics$avg_spent[1:3], labels=words_metrics$word[1:3], pos=c(4,1,2), cex=0.6)
+text(words_metrics$tfidf[1:5],words_metrics$avg_spent[1:5], labels=words_metrics$word[1:5], pos=c(4,1,2), cex=0.6)
 words_metrics <- words_metrics[order(-words_metrics$tfidf),]
-text(words_metrics$tfidf[1:3],words_metrics$avg_spent[1:3], labels=words_metrics$word[1:3], pos=c(3,3,1), cex=0.6)
+text(words_metrics$tfidf[1:5],words_metrics$avg_spent[1:5], labels=words_metrics$word[1:5], pos=c(3,3,1), cex=0.6)
+
+#explore relations between tf-idf and total amount spent
+plot(words_metrics$tfidf,words_metrics$total_spent, pch=16, xlab="TF-IDF (modified)", ylab="Total spent per bill (K $)", col=add.alpha("blue",0.5), main="TF-IDF score vs. Total spent per bill")
+words_metrics <- words_metrics[order(-words_metrics$total_spent),]
+text(words_metrics$tfidf[1:10],words_metrics$total_spent[1:10], labels=words_metrics$word[1:10], pos=c(4,1,2), cex=0.6)
+words_metrics <- words_metrics[order(-words_metrics$tfidf),]
+text(words_metrics$tfidf[1:5],words_metrics$total_spent[1:5], labels=words_metrics$word[1:5], pos=c(1,3,3,1,1), cex=0.6)
+
 
 #find keywords
 quantile(words_metrics$tfidf, c(0.25,0.5,0.75,0.9,0.95,1))
